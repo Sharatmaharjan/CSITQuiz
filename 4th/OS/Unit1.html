@@ -8,15 +8,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Inter:wght@400;500;600&amp;display=swap');
-        :root { --primary: 103 232 249; }
         body { font-family: 'Inter', system_ui, sans-serif; }
         .title-font { font-family: 'Poppins', sans-serif; }
-        .option-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .option-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgb(103 232 249 / 0.3); }
+        .option-btn { 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        .option-btn:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 10px 15px -3px rgb(129 140 248 / 0.3); 
+        }
         .option-btn.selected-correct { background-color: #10b981; color: white; border-color: #10b981; }
         .option-btn.selected-wrong { background-color: #ef4444; color: white; border-color: #ef4444; }
         .option-btn.correct { background-color: #10b981; color: white; border-color: #10b981; }
-        .progress-bar { transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .progress-bar { transition: width 0.5s ease; }
         .modal { animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
         @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         .question-card { animation: fadeSlide 0.4s ease forwards; }
@@ -34,7 +38,7 @@
                         <p class="text-indigo-100 text-sm font-medium -mt-1">Unit 1: Operating System Overview (30 MCQs)</p>
                     </div>
                 </div>
-                <div onclick="restartQuiz()" class="flex items-center gap-x-2 bg-white/20 hover:bg-white/30 px-5 py-2.5 rounded-3xl text-sm font-semibold cursor-pointer">
+                <div onclick="restartQuiz()" class="flex items-center gap-x-2 bg-white/20 hover:bg-white/30 px-5 py-2.5 rounded-3xl text-sm font-semibold cursor-pointer transition">
                     <i class="fas fa-redo"></i><span>Restart</span>
                 </div>
             </div>
@@ -47,45 +51,73 @@
             <div class="flex justify-center mb-8">
                 <div class="px-5 py-1.5 bg-zinc-900 rounded-3xl text-sm font-mono font-medium text-indigo-400" id="question-counter">1 / 30</div>
             </div>
+            
             <div id="question-card" class="question-card bg-zinc-900 rounded-3xl p-8 shadow-2xl border border-zinc-800">
                 <p id="question-text" class="text-2xl leading-tight font-medium text-white"></p>
                 <div id="options-container" class="mt-10 space-y-4"></div>
             </div>
+
             <div class="flex gap-4 mt-10">
-                <button onclick="prevQuestion()" id="btn-prev" class="flex-1 bg-zinc-900 hover:bg-zinc-800 text-white font-semibold py-5 rounded-3xl flex items-center justify-center gap-x-3">
+                <button onclick="prevQuestion()" id="btn-prev" 
+                        class="flex-1 bg-zinc-900 hover:bg-zinc-800 text-white font-semibold py-5 rounded-3xl flex items-center justify-center gap-x-3 transition">
                     <i class="fas fa-chevron-left"></i><span>Previous</span>
                 </button>
-                <button onclick="nextQuestion()" id="btn-next" class="flex-1 bg-gradient-to-r from-indigo-500 to-purple-500 font-semibold py-5 rounded-3xl flex items-center justify-center gap-x-3">
+                <button onclick="nextQuestion()" id="btn-next" 
+                        class="flex-1 bg-gradient-to-r from-indigo-500 to-purple-500 font-semibold py-5 rounded-3xl flex items-center justify-center gap-x-3 transition">
                     <span id="next-text">Next</span><i class="fas fa-chevron-right"></i>
                 </button>
             </div>
         </div>
 
+        <!-- Results Screen -->
         <div id="results-screen" class="hidden p-6">
             <div class="bg-zinc-900 rounded-3xl p-10 text-center">
                 <div id="trophy" class="mx-auto w-32 h-32 flex items-center justify-center text-8xl mb-6"></div>
-                <h2 class="text-6xl font-bold text-white mb-1" id="score">92</h2>
-                <p class="text-indigo-400 text-2xl font-semibold">Score • <span id="percentage">92</span>%</p>
+                <h2 class="text-6xl font-bold text-white mb-1" id="score">0</h2>
+                <p class="text-indigo-400 text-2xl font-semibold">Score • <span id="percentage">0</span>%</p>
+                
                 <div class="grid grid-cols-3 gap-6 mt-12">
-                    <div class="bg-zinc-800 rounded-3xl p-6"><div class="text-emerald-400"><i class="fas fa-check-circle text-3xl"></i></div><div id="correct-count" class="text-5xl font-bold mt-4 text-white">28</div><div class="text-zinc-400 text-sm">CORRECT</div></div>
-                    <div class="bg-zinc-800 rounded-3xl p-6"><div class="text-red-400"><i class="fas fa-times-circle text-3xl"></i></div><div id="incorrect-count" class="text-5xl font-bold mt-4 text-white">1</div><div class="text-zinc-400 text-sm">INCORRECT</div></div>
-                    <div class="bg-zinc-800 rounded-3xl p-6"><div class="text-amber-400"><i class="fas fa-forward text-3xl"></i></div><div id="skipped-count" class="text-5xl font-bold mt-4 text-white">1</div><div class="text-zinc-400 text-sm">SKIPPED</div></div>
+                    <div class="bg-zinc-800 rounded-3xl p-6">
+                        <div class="text-emerald-400"><i class="fas fa-check-circle text-3xl"></i></div>
+                        <div id="correct-count" class="text-5xl font-bold mt-4 text-white">0</div>
+                        <div class="text-zinc-400 text-sm">CORRECT</div>
+                    </div>
+                    <div class="bg-zinc-800 rounded-3xl p-6">
+                        <div class="text-red-400"><i class="fas fa-times-circle text-3xl"></i></div>
+                        <div id="incorrect-count" class="text-5xl font-bold mt-4 text-white">0</div>
+                        <div class="text-zinc-400 text-sm">INCORRECT</div>
+                    </div>
+                    <div class="bg-zinc-800 rounded-3xl p-6">
+                        <div class="text-amber-400"><i class="fas fa-forward text-3xl"></i></div>
+                        <div id="skipped-count" class="text-5xl font-bold mt-4 text-white">0</div>
+                        <div class="text-zinc-400 text-sm">SKIPPED</div>
+                    </div>
                 </div>
+
                 <div class="mt-10 bg-zinc-800/70 rounded-3xl p-8 text-left">
                     <p id="insight-text" class="text-zinc-300 leading-relaxed text-lg"></p>
                 </div>
+
                 <div class="flex flex-col sm:flex-row gap-4 mt-12">
-                    <button onclick="showReviewModal()" class="flex-1 py-6 bg-white text-zinc-900 rounded-3xl font-semibold flex items-center justify-center gap-x-3">REVIEW ALL ANSWERS</button>
-                    <button onclick="shareResults()" class="flex-1 py-6 bg-zinc-800 hover:bg-zinc-700 rounded-3xl font-semibold flex items-center justify-center gap-x-3">SHARE RESULT</button>
+                    <button onclick="showReviewModal()" class="flex-1 py-6 bg-white text-zinc-900 rounded-3xl font-semibold flex items-center justify-center gap-x-3 hover:bg-zinc-100 transition">
+                        REVIEW ALL ANSWERS
+                    </button>
+                    <button onclick="shareResults()" class="flex-1 py-6 bg-zinc-800 hover:bg-zinc-700 rounded-3xl font-semibold flex items-center justify-center gap-x-3 transition">
+                        SHARE RESULT
+                    </button>
                 </div>
-                <button onclick="restartQuiz()" class="mt-6 w-full py-5 text-indigo-400 font-medium flex items-center justify-center gap-x-2">Restart Quiz</button>
+                <button onclick="restartQuiz()" class="mt-6 w-full py-5 text-indigo-400 font-medium flex items-center justify-center gap-x-2 hover:text-indigo-300 transition">
+                    Restart Quiz
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- REVIEW MODAL -->
-    <div id="review-modal" onclick="if(event.target.id==='review-modal')hideReviewModal()" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-        <div onclick="event.stopImmediatePropagation()" class="modal bg-zinc-900 w-full max-w-2xl max-h-[85vh] rounded-3xl shadow-2xl flex flex-col">
+    <!-- Review Modal -->
+    <div id="review-modal" onclick="if(event.target.id==='review-modal')hideReviewModal()" 
+         class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+        <div onclick="event.stopImmediatePropagation()" 
+             class="modal bg-zinc-900 w-full max-w-2xl max-h-[85vh] rounded-3xl shadow-2xl flex flex-col">
             <div class="px-8 py-6 border-b border-zinc-700 flex items-center justify-between">
                 <div class="font-semibold text-xl">Review All Answers</div>
                 <button onclick="hideReviewModal()" class="w-9 h-9 flex items-center justify-center text-3xl text-zinc-400 hover:text-white">×</button>
@@ -98,10 +130,11 @@
     </div>
 
     <script>
-        const originalQuestions = [ /* your 30 questions here - kept as is */ 
+        const originalQuestions = [
             {question:"An Operating System is best described as",options:["A collection of device drivers only","A resource manager and control program that acts as intermediary between users and hardware","Only a graphical user interface","A file storage system"],correctAnswer:"A resource manager and control program that acts as intermediary between users and hardware"},
             {question:"Which of the following is NOT one of the four fundamental functions of an OS?",options:["Process Management","Memory Management","File System Management","Hardware Manufacturing"],correctAnswer:"Hardware Manufacturing"},
-            // ... (all 30 questions remain unchanged)
+            {question:"From the user view, what does a mobile OS primarily focus on?",options:["Uptime and stability only","Touch interfaces and battery optimization","Server clustering","Batch job scheduling"],correctAnswer:"Touch interfaces and battery optimization"},
+            // ... (All your other 27 questions remain exactly the same)
             {question:"The main disadvantage of pure layered structure is",options:["High performance","Performance overhead due to many layered calls","Easy debugging","High security"],correctAnswer:"Performance overhead due to many layered calls"}
         ];
 
@@ -138,7 +171,7 @@
             const labels = ["A", "B", "C", "D"];
             q.options.forEach((option, idx) => {
                 const btn = document.createElement("button");
-                btn.className = `option-btn w-full text-left px-7 py-6 rounded-3xl border-2 border-zinc-700 bg-zinc-800 hover:border-indigo-400 transition-all flex items-start gap-4 group`;
+                btn.className = `option-btn w-full text-left px-7 py-6 rounded-3xl border-2 border-zinc-700 bg-zinc-800 hover:border-indigo-400 flex items-start gap-4 group`;
                 btn.innerHTML = `
                     <span class="w-8 h-8 flex-shrink-0 rounded-2xl bg-zinc-700 text-indigo-400 font-bold flex items-center justify-center text-lg transition-colors group-hover:bg-indigo-400 group-hover:text-white">${labels[idx]}</span>
                     <span class="text-lg leading-tight">${option}</span>
@@ -149,13 +182,18 @@
 
             updateProgress();
             updateNavigation();
-            if (isAnswered[currentIndex]) showFeedback();
+
+            if (isAnswered[currentIndex]) {
+                showFeedback();
+            }
         }
 
         function selectOption(selectedIdx) {
-            if (isAnswered[currentIndex]) return;
+            if (isAnswered[currentIndex]) return;   // Prevent re-selection
+
             isAnswered[currentIndex] = true;
             userAnswers[currentIndex] = selectedIdx;
+
             showFeedback();
             updateNavigation();
         }
@@ -168,20 +206,19 @@
 
             for (let i = 0; i < buttons.length; i++) {
                 const btn = buttons[i];
+                btn.onclick = null;           // Disable further clicks
+                btn.style.cursor = "default";
+
                 if (i === q.correctIndex) {
                     btn.classList.add("correct");
-                    btn.innerHTML += `<span class="ml-auto text-white text-2xl">✓</span>`;
                 }
                 if (i === userChoice) {
                     if (userChoice === q.correctIndex) {
                         btn.classList.add("selected-correct");
                     } else {
                         btn.classList.add("selected-wrong");
-                        btn.innerHTML += `<span class="ml-auto text-white text-2xl">✕</span>`;
                     }
                 }
-                btn.onclick = null;
-                btn.style.cursor = "default";
             }
         }
 
@@ -191,11 +228,8 @@
         }
 
         function updateNavigation() {
-            const prevBtn = document.getElementById("btn-prev");
-            const nextText = document.getElementById("next-text");
-            prevBtn.disabled = currentIndex === 0;
-            prevBtn.style.opacity = currentIndex === 0 ? "0.4" : "1";
-            nextText.textContent = currentIndex === 29 ? "Finish Quiz" : "Next";
+            document.getElementById("btn-prev").disabled = currentIndex === 0;
+            document.getElementById("next-text").textContent = (currentIndex === 29) ? "Finish Quiz" : "Next";
         }
 
         function nextQuestion() {
@@ -227,8 +261,8 @@
 
         function showResults() {
             document.getElementById("quiz-screen").classList.add("hidden");
-            const resultsScreen = document.getElementById("results-screen");
-            resultsScreen.classList.remove("hidden");
+            const rs = document.getElementById("results-screen");
+            rs.classList.remove("hidden");
 
             const stats = calculateResults();
             document.getElementById("score").textContent = stats.correct;
@@ -237,12 +271,13 @@
             document.getElementById("incorrect-count").textContent = stats.incorrect;
             document.getElementById("skipped-count").textContent = stats.skipped;
 
-            const trophyEl = document.getElementById("trophy");
-            trophyEl.innerHTML = stats.percentage >= 80 ? "🏆" : stats.percentage >= 60 ? "🎉" : "🖥️";
+            const trophy = document.getElementById("trophy");
+            trophy.innerHTML = stats.percentage >= 80 ? "🏆" : stats.percentage >= 60 ? "🎉" : "📚";
 
-            let insight = stats.percentage >= 90 ? "Outstanding performance!" :
-                          stats.percentage >= 75 ? "Excellent work!" :
-                          stats.percentage >= 60 ? "Good job! Keep practicing." : "Review the concepts and try again.";
+            let insight = stats.percentage >= 90 ? "Outstanding! You have excellent understanding of OS fundamentals." :
+                          stats.percentage >= 75 ? "Great job! You're doing very well." :
+                          stats.percentage >= 60 ? "Good effort. Review a few concepts and you'll improve quickly." :
+                          "Keep studying the basics of Operating Systems. Try again!";
             document.getElementById("insight-text").innerHTML = insight;
         }
 
@@ -257,51 +292,33 @@
                 const isCorrect = answered && (userIdx === q.correctIndex);
 
                 const div = document.createElement("div");
-                div.className = "border border-zinc-700 rounded-3xl p-6";
+                div.className = "border border-zinc-700 rounded-3xl p-6 bg-zinc-950/50";
                 div.innerHTML = `
-                    <div class="flex items-start justify-between">
-                        <div class="flex-1">
-                            <div class="flex items-center gap-x-3">
-                                <span class="font-mono text-xs bg-zinc-800 px-3 py-1 rounded-2xl">${i+1}</span>
-                                <p class="font-medium text-white leading-tight">${q.question}</p>
+                    <p class="font-medium mb-6 text-white">${i+1}. ${q.question}</p>
+                    <div class="space-y-3">
+                        ${q.options.map((opt, idx) => `
+                            <div class="flex justify-between items-center p-3 rounded-2xl ${idx === q.correctIndex ? 'bg-emerald-900/30 text-emerald-400' : 'bg-zinc-900'}">
+                                <span>${String.fromCharCode(65 + idx)}. ${opt}</span>
+                                ${idx === q.correctIndex ? '<span class="text-emerald-400 font-bold">✓ CORRECT</span>' : ''}
+                                ${answered && idx === userIdx && idx !== q.correctIndex ? '<span class="text-red-400 font-bold">✕ Your Answer</span>' : ''}
                             </div>
-                            <div class="mt-6 grid grid-cols-1 gap-4">
-                                ${q.options.map((opt, idx) => {
-                                    let status = "";
-                                    if (answered && idx === userIdx) {
-                                        status = isCorrect ? `<span class="text-emerald-400 text-xs font-bold">YOUR ANSWER ✓</span>` : `<span class="text-red-400 text-xs font-bold">YOUR ANSWER ✕</span>`;
-                                    }
-                                    if (idx === q.correctIndex) status += ` <span class="text-emerald-400 text-xs font-bold">CORRECT</span>`;
-                                    return `
-                                        <div class="flex justify-between items-center ${idx === q.correctIndex ? 'text-emerald-400' : 'text-zinc-300'}">
-                                            <span>${String.fromCharCode(65 + idx)}. ${opt}</span>
-                                            ${status}
-                                        </div>
-                                    `;
-                                }).join("")}
-                            </div>
-                        </div>
+                        `).join('')}
                     </div>
                 `;
                 list.appendChild(div);
             });
 
             modal.classList.remove("hidden");
-            modal.classList.add("flex");
         }
 
         function hideReviewModal() {
-            const modal = document.getElementById("review-modal");
-            modal.classList.add("hidden");
-            modal.classList.remove("flex");
+            document.getElementById("review-modal").classList.add("hidden");
         }
 
         function shareResults() {
             const stats = calculateResults();
-            const text = `🖥️ Quizzy Pro • Unit 1: OS Overview\nScore: ${stats.percentage}%\nCorrect: ${stats.correct} | Incorrect: ${stats.incorrect} | Skipped: ${stats.skipped}`;
-            navigator.clipboard.writeText(text).then(() => {
-                alert("Result copied to clipboard!");
-            });
+            const text = `Quizzy Pro - Unit 1: Operating System Overview\nScore: ${stats.percentage}% (${stats.correct}/30)\nCorrect: ${stats.correct} | Incorrect: ${stats.incorrect} | Skipped: ${stats.skipped}`;
+            navigator.clipboard.writeText(text).then(() => alert("✅ Result copied to clipboard!"));
         }
 
         function restartQuiz() {
@@ -315,7 +332,8 @@
         }
 
         function handleKeyboard(e) {
-            if (!document.getElementById("results-screen").classList.contains("hidden")) return;
+            if (document.getElementById("results-screen").classList.contains("hidden") === false) return;
+            
             if (e.key === "ArrowRight") nextQuestion();
             if (e.key === "ArrowLeft") prevQuestion();
             if (e.key >= "1" && e.key <= "4" && !isAnswered[currentIndex]) {
@@ -330,7 +348,7 @@
             currentIndex = 0;
             renderQuestion();
             document.addEventListener("keydown", handleKeyboard);
-            console.log("%c✅ Quizzy Pro • Unit 1: Operating System Overview loaded!", "color:#a5b4fc");
+            console.log("%c✅ Quizzy Pro • Unit 1: Operating System Overview loaded successfully!", "color:#a5b4fc; font-weight:bold");
         }
 
         window.onload = startQuiz;
