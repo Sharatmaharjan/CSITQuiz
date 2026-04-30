@@ -10,17 +10,12 @@
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;family=Inter:wght@400;500;600&amp;display=swap');
         body { font-family: 'Inter', system_ui, sans-serif; }
         .title-font { font-family: 'Poppins', sans-serif; }
-        .option-btn { 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-        }
-        .option-btn:hover { 
-            transform: translateY(-3px); 
-            box-shadow: 0 10px 15px -3px rgb(129 140 248 / 0.3); 
-        }
+        .option-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .option-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgb(129 140 248 / 0.3); }
         .option-btn.selected-correct { background-color: #10b981; color: white; border-color: #10b981; }
         .option-btn.selected-wrong { background-color: #ef4444; color: white; border-color: #ef4444; }
         .option-btn.correct { background-color: #10b981; color: white; border-color: #10b981; }
-        .progress-bar { transition: width 0.5s ease; }
+        .progress-bar { transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
         .modal { animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
         @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         .question-card { animation: fadeSlide 0.4s ease forwards; }
@@ -38,7 +33,7 @@
                         <p class="text-indigo-100 text-sm font-medium -mt-1">Unit 1: Operating System Overview (30 MCQs)</p>
                     </div>
                 </div>
-                <div onclick="restartQuiz()" class="flex items-center gap-x-2 bg-white/20 hover:bg-white/30 px-5 py-2.5 rounded-3xl text-sm font-semibold cursor-pointer transition">
+                <div onclick="restartQuiz()" class="flex items-center gap-x-2 bg-white/20 hover:bg-white/30 px-5 py-2.5 rounded-3xl text-sm font-semibold cursor-pointer">
                     <i class="fas fa-redo"></i><span>Restart</span>
                 </div>
             </div>
@@ -51,73 +46,45 @@
             <div class="flex justify-center mb-8">
                 <div class="px-5 py-1.5 bg-zinc-900 rounded-3xl text-sm font-mono font-medium text-indigo-400" id="question-counter">1 / 30</div>
             </div>
-            
             <div id="question-card" class="question-card bg-zinc-900 rounded-3xl p-8 shadow-2xl border border-zinc-800">
                 <p id="question-text" class="text-2xl leading-tight font-medium text-white"></p>
                 <div id="options-container" class="mt-10 space-y-4"></div>
             </div>
-
             <div class="flex gap-4 mt-10">
-                <button onclick="prevQuestion()" id="btn-prev" 
-                        class="flex-1 bg-zinc-900 hover:bg-zinc-800 text-white font-semibold py-5 rounded-3xl flex items-center justify-center gap-x-3 transition">
+                <button onclick="prevQuestion()" id="btn-prev" class="flex-1 bg-zinc-900 hover:bg-zinc-800 text-white font-semibold py-5 rounded-3xl flex items-center justify-center gap-x-3">
                     <i class="fas fa-chevron-left"></i><span>Previous</span>
                 </button>
-                <button onclick="nextQuestion()" id="btn-next" 
-                        class="flex-1 bg-gradient-to-r from-indigo-500 to-purple-500 font-semibold py-5 rounded-3xl flex items-center justify-center gap-x-3 transition">
+                <button onclick="nextQuestion()" id="btn-next" class="flex-1 bg-gradient-to-r from-indigo-500 to-purple-500 font-semibold py-5 rounded-3xl flex items-center justify-center gap-x-3">
                     <span id="next-text">Next</span><i class="fas fa-chevron-right"></i>
                 </button>
             </div>
         </div>
 
-        <!-- Results Screen -->
         <div id="results-screen" class="hidden p-6">
             <div class="bg-zinc-900 rounded-3xl p-10 text-center">
                 <div id="trophy" class="mx-auto w-32 h-32 flex items-center justify-center text-8xl mb-6"></div>
-                <h2 class="text-6xl font-bold text-white mb-1" id="score">0</h2>
-                <p class="text-indigo-400 text-2xl font-semibold">Score • <span id="percentage">0</span>%</p>
-                
+                <h2 class="text-6xl font-bold text-white mb-1" id="score">92</h2>
+                <p class="text-indigo-400 text-2xl font-semibold">Score • <span id="percentage">92</span>%</p>
                 <div class="grid grid-cols-3 gap-6 mt-12">
-                    <div class="bg-zinc-800 rounded-3xl p-6">
-                        <div class="text-emerald-400"><i class="fas fa-check-circle text-3xl"></i></div>
-                        <div id="correct-count" class="text-5xl font-bold mt-4 text-white">0</div>
-                        <div class="text-zinc-400 text-sm">CORRECT</div>
-                    </div>
-                    <div class="bg-zinc-800 rounded-3xl p-6">
-                        <div class="text-red-400"><i class="fas fa-times-circle text-3xl"></i></div>
-                        <div id="incorrect-count" class="text-5xl font-bold mt-4 text-white">0</div>
-                        <div class="text-zinc-400 text-sm">INCORRECT</div>
-                    </div>
-                    <div class="bg-zinc-800 rounded-3xl p-6">
-                        <div class="text-amber-400"><i class="fas fa-forward text-3xl"></i></div>
-                        <div id="skipped-count" class="text-5xl font-bold mt-4 text-white">0</div>
-                        <div class="text-zinc-400 text-sm">SKIPPED</div>
-                    </div>
+                    <div class="bg-zinc-800 rounded-3xl p-6"><div class="text-emerald-400"><i class="fas fa-check-circle text-3xl"></i></div><div id="correct-count" class="text-5xl font-bold mt-4 text-white">28</div><div class="text-zinc-400 text-sm">CORRECT</div></div>
+                    <div class="bg-zinc-800 rounded-3xl p-6"><div class="text-red-400"><i class="fas fa-times-circle text-3xl"></i></div><div id="incorrect-count" class="text-5xl font-bold mt-4 text-white">1</div><div class="text-zinc-400 text-sm">INCORRECT</div></div>
+                    <div class="bg-zinc-800 rounded-3xl p-6"><div class="text-amber-400"><i class="fas fa-forward text-3xl"></i></div><div id="skipped-count" class="text-5xl font-bold mt-4 text-white">1</div><div class="text-zinc-400 text-sm">SKIPPED</div></div>
                 </div>
-
                 <div class="mt-10 bg-zinc-800/70 rounded-3xl p-8 text-left">
                     <p id="insight-text" class="text-zinc-300 leading-relaxed text-lg"></p>
                 </div>
-
                 <div class="flex flex-col sm:flex-row gap-4 mt-12">
-                    <button onclick="showReviewModal()" class="flex-1 py-6 bg-white text-zinc-900 rounded-3xl font-semibold flex items-center justify-center gap-x-3 hover:bg-zinc-100 transition">
-                        REVIEW ALL ANSWERS
-                    </button>
-                    <button onclick="shareResults()" class="flex-1 py-6 bg-zinc-800 hover:bg-zinc-700 rounded-3xl font-semibold flex items-center justify-center gap-x-3 transition">
-                        SHARE RESULT
-                    </button>
+                    <button onclick="showReviewModal()" class="flex-1 py-6 bg-white text-zinc-900 rounded-3xl font-semibold flex items-center justify-center gap-x-3">REVIEW ALL ANSWERS</button>
+                    <button onclick="shareResults()" class="flex-1 py-6 bg-zinc-800 hover:bg-zinc-700 rounded-3xl font-semibold flex items-center justify-center gap-x-3">SHARE RESULT</button>
                 </div>
-                <button onclick="restartQuiz()" class="mt-6 w-full py-5 text-indigo-400 font-medium flex items-center justify-center gap-x-2 hover:text-indigo-300 transition">
-                    Restart Quiz
-                </button>
+                <button onclick="restartQuiz()" class="mt-6 w-full py-5 text-indigo-400 font-medium flex items-center justify-center gap-x-2">Restart Quiz</button>
             </div>
         </div>
     </div>
 
-    <!-- Review Modal -->
-    <div id="review-modal" onclick="if(event.target.id==='review-modal')hideReviewModal()" 
-         class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-        <div onclick="event.stopImmediatePropagation()" 
-             class="modal bg-zinc-900 w-full max-w-2xl max-h-[85vh] rounded-3xl shadow-2xl flex flex-col">
+    <!-- REVIEW MODAL -->
+    <div id="review-modal" onclick="if(event.target.id==='review-modal')hideReviewModal()" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+        <div onclick="event.stopImmediatePropagation()" class="modal bg-zinc-900 w-full max-w-2xl max-h-[85vh] rounded-3xl shadow-2xl flex flex-col">
             <div class="px-8 py-6 border-b border-zinc-700 flex items-center justify-between">
                 <div class="font-semibold text-xl">Review All Answers</div>
                 <button onclick="hideReviewModal()" class="w-9 h-9 flex items-center justify-center text-3xl text-zinc-400 hover:text-white">×</button>
@@ -134,8 +101,33 @@
             {question:"An Operating System is best described as",options:["A collection of device drivers only","A resource manager and control program that acts as intermediary between users and hardware","Only a graphical user interface","A file storage system"],correctAnswer:"A resource manager and control program that acts as intermediary between users and hardware"},
             {question:"Which of the following is NOT one of the four fundamental functions of an OS?",options:["Process Management","Memory Management","File System Management","Hardware Manufacturing"],correctAnswer:"Hardware Manufacturing"},
             {question:"From the user view, what does a mobile OS primarily focus on?",options:["Uptime and stability only","Touch interfaces and battery optimization","Server clustering","Batch job scheduling"],correctAnswer:"Touch interfaces and battery optimization"},
-            // ... (All your other 27 questions remain exactly the same)
-            {question:"The main disadvantage of pure layered structure is",options:["High performance","Performance overhead due to many layered calls","Easy debugging","High security"],correctAnswer:"Performance overhead due to many layered calls"}
+            {question:"From the system view, the OS acts as a",options:["User-friendly GUI","Resource allocator and control program that prevents errors and enforces security","Simple file browser","Web browser engine"],correctAnswer:"Resource allocator and control program that prevents errors and enforces security"},
+            {question:"Which era introduced batch processing as the key innovation in OS evolution?",options:["1940s-50s","1950s-60s","1980s-90s","2000s-Present"],correctAnswer:"1950s-60s"},
+            {question:"Time-sharing / multitasking OS is best suited for",options:["Large repetitive payroll jobs","Interactive multi-user environments with quick task switching","Life-critical medical devices","Single-user punch-card systems"],correctAnswer:"Interactive multi-user environments with quick task switching"},
+            {question:"In a Hard Real-Time OS, missing a deadline",options:["Is acceptable if quality is still good","Can cause serious failure or danger","Only affects video streaming","Is handled by soft scheduling"],correctAnswer:"Can cause serious failure or danger"},
+            {question:"A Soft Real-Time OS is typically used for",options:["Pacemakers and airbag systems","Video streaming, online gaming, multimedia","Bank transaction batch processing","Server clustering only"],correctAnswer:"Video streaming, online gaming, multimedia"},
+            {question:"Distributed OS differs from Network OS in that it",options:["Keeps computers separate but allows sharing","Makes multiple computers appear as a single coherent system","Only manages local files","Uses only client-server model"],correctAnswer:"Makes multiple computers appear as a single coherent system"},
+            {question:"Which OS type is optimized for touch interfaces and battery life?",options:["Batch Processing OS","Mobile OS","Real-Time OS","Network OS"],correctAnswer:"Mobile OS"},
+            {question:"A system call is",options:["A command typed in the shell","A programmatic request from an application to the OS kernel","A graphical menu option","A hardware interrupt only"],correctAnswer:"A programmatic request from an application to the OS kernel"},
+            {question:"The transition from user mode to kernel mode is triggered by",options:["A hardware reset","A software interrupt","Manual user input","File system mounting"],correctAnswer:"A software interrupt"},
+            {question:"Which system call category includes fork() and exit()?",options:["File Management","Process Control","Device Management","Communication"],correctAnswer:"Process Control"},
+            {question:"In a monolithic kernel structure",options:["All services run in user mode","The entire OS runs as one large program in kernel mode","Only minimal services are in the kernel","Layers communicate only with adjacent layers"],correctAnswer:"The entire OS runs as one large program in kernel mode"},
+            {question:"A major advantage of microkernel over monolithic is",options:["Higher performance","Better stability and security because services run in user space","Simpler design with no IPC","Faster file system access"],correctAnswer:"Better stability and security because services run in user space"},
+            {question:"Modern Linux is described as a",options:["Pure monolithic kernel","Pure microkernel","Modular monolithic kernel with loadable kernel modules","Layered kernel only"],correctAnswer:"Modular monolithic kernel with loadable kernel modules"},
+            {question:"In a layered OS structure, each layer",options:["Can communicate directly with any other layer","Communicates only with its immediate lower and upper layers","Runs entirely in user mode","Handles only hardware directly"],correctAnswer:"Communicates only with its immediate lower and upper layers"},
+            {question:"Client-server OS structure is typically used in",options:["Single-user desktop systems","Distributed and networked environments","Batch processing only","Hard real-time systems"],correctAnswer:"Distributed and networked environments"},
+            {question:"The shell is",options:["A device driver","A command-line interpreter that translates user commands into system calls","The kernel itself","A graphical window manager"],correctAnswer:"A command-line interpreter that translates user commands into system calls"},
+            {question:"One key advantage of open-source operating systems is",options:["Vendor lock-in","Community-driven rapid updates and transparency","Higher cost","Closed source code"],correctAnswer:"Community-driven rapid updates and transparency"},
+            {question:"In the evolution of OS, the 1980s-90s key innovation was",options:["Batch processing","Personal computers and GUI","Mobile/distributed systems","No OS era"],correctAnswer:"Personal computers and GUI"},
+            {question:"Which OS type has the lowest response latency?",options:["Batch Processing","Time-Sharing","Real-Time (RTOS)","Mobile OS"],correctAnswer:"Real-Time (RTOS)"},
+            {question:"The kernel is responsible for",options:["Only GUI rendering","Starting/stopping processes, memory allocation, and file I/O","User authentication only","Network routing"],correctAnswer:"Starting/stopping processes, memory allocation, and file I/O"},
+            {question:"In microkernel architecture, device drivers typically run in",options:["Kernel mode","User mode as separate processes","Hardware layer only","Shell level"],correctAnswer:"User mode as separate processes"},
+            {question:"Exokernels differ from microkernels because they",options:["Provide many abstractions","Provide almost no abstractions – applications build their own","Use heavy IPC","Focus only on stability"],correctAnswer:"Provide almost no abstractions – applications build their own"},
+            {question:"Which structure combines performance of monolithic with flexibility of microkernel?",options:["Layered","Modular (modern Linux)","Client-Server","Pure Microkernel"],correctAnswer:"Modular (modern Linux)"},
+            {question:"System call handling involves the correct order",options:["Kernel executes → User mode transition","User mode → Kernel mode (interrupt) → Kernel executes → Return to user mode","Return first then execute","Only user mode"],correctAnswer:"User mode → Kernel mode (interrupt) → Kernel executes → Return to user mode"},
+            {question:"Which of the following is an example of a system program for process management?",options:["ls, cp","top, ps, kill","ping, ifconfig","File Explorer"],correctAnswer:"top, ps, kill"},
+            {question:"The main disadvantage of pure layered structure is",options:["High performance","Performance overhead due to many layered calls","Easy debugging","High security"],correctAnswer:"Performance overhead due to many layered calls"},
+            {question:"Which of the following best describes multiprogramming?",options:["Running multiple processes at the same time on multiple CPUs","Maximizing CPU utilization by keeping multiple jobs in memory","Running only one program at a time","Executing only I/O bound jobs"],correctAnswer:"Maximizing CPU utilization by keeping multiple jobs in memory"}
         ];
 
         let shuffledQuestions = [];
@@ -164,14 +156,12 @@
             const q = shuffledQuestions[currentIndex];
             document.getElementById("question-counter").textContent = `${currentIndex + 1} / 30`;
             document.getElementById("question-text").textContent = q.question;
-
             const container = document.getElementById("options-container");
             container.innerHTML = "";
-
             const labels = ["A", "B", "C", "D"];
             q.options.forEach((option, idx) => {
                 const btn = document.createElement("button");
-                btn.className = `option-btn w-full text-left px-7 py-6 rounded-3xl border-2 border-zinc-700 bg-zinc-800 hover:border-indigo-400 flex items-start gap-4 group`;
+                btn.className = `option-btn w-full text-left px-7 py-6 rounded-3xl border-2 border-zinc-700 bg-zinc-800 hover:border-indigo-400 transition-all flex items-start gap-4 group`;
                 btn.innerHTML = `
                     <span class="w-8 h-8 flex-shrink-0 rounded-2xl bg-zinc-700 text-indigo-400 font-bold flex items-center justify-center text-lg transition-colors group-hover:bg-indigo-400 group-hover:text-white">${labels[idx]}</span>
                     <span class="text-lg leading-tight">${option}</span>
@@ -179,21 +169,15 @@
                 btn.onclick = () => selectOption(idx);
                 container.appendChild(btn);
             });
-
             updateProgress();
             updateNavigation();
-
-            if (isAnswered[currentIndex]) {
-                showFeedback();
-            }
+            if (isAnswered[currentIndex]) showFeedback();
         }
 
         function selectOption(selectedIdx) {
-            if (isAnswered[currentIndex]) return;   // Prevent re-selection
-
+            if (isAnswered[currentIndex]) return;
             isAnswered[currentIndex] = true;
             userAnswers[currentIndex] = selectedIdx;
-
             showFeedback();
             updateNavigation();
         }
@@ -203,22 +187,21 @@
             const container = document.getElementById("options-container");
             const buttons = container.children;
             const userChoice = userAnswers[currentIndex];
-
             for (let i = 0; i < buttons.length; i++) {
                 const btn = buttons[i];
-                btn.onclick = null;           // Disable further clicks
-                btn.style.cursor = "default";
-
                 if (i === q.correctIndex) {
                     btn.classList.add("correct");
+                    btn.innerHTML += `<span class="ml-auto text-white text-2xl">✓</span>`;
                 }
                 if (i === userChoice) {
-                    if (userChoice === q.correctIndex) {
-                        btn.classList.add("selected-correct");
-                    } else {
+                    if (userChoice === q.correctIndex) btn.classList.add("selected-correct");
+                    else {
                         btn.classList.add("selected-wrong");
+                        btn.innerHTML += `<span class="ml-auto text-white text-2xl">✕</span>`;
                     }
                 }
+                btn.onclick = null;
+                btn.style.cursor = "default";
             }
         }
 
@@ -228,8 +211,11 @@
         }
 
         function updateNavigation() {
-            document.getElementById("btn-prev").disabled = currentIndex === 0;
-            document.getElementById("next-text").textContent = (currentIndex === 29) ? "Finish Quiz" : "Next";
+            const prevBtn = document.getElementById("btn-prev");
+            const nextText = document.getElementById("next-text");
+            prevBtn.disabled = currentIndex === 0;
+            prevBtn.style.opacity = currentIndex === 0 ? "0.4" : "1";
+            nextText.textContent = currentIndex === 29 ? "Finish Quiz" : "Next";
         }
 
         function nextQuestion() {
@@ -261,9 +247,8 @@
 
         function showResults() {
             document.getElementById("quiz-screen").classList.add("hidden");
-            const rs = document.getElementById("results-screen");
-            rs.classList.remove("hidden");
-
+            const resultsScreen = document.getElementById("results-screen");
+            resultsScreen.classList.remove("hidden");
             const stats = calculateResults();
             document.getElementById("score").textContent = stats.correct;
             document.getElementById("percentage").textContent = stats.percentage;
@@ -271,12 +256,12 @@
             document.getElementById("incorrect-count").textContent = stats.incorrect;
             document.getElementById("skipped-count").textContent = stats.skipped;
 
-            const trophy = document.getElementById("trophy");
-            trophy.innerHTML = stats.percentage >= 80 ? "🏆" : stats.percentage >= 60 ? "🎉" : "📚";
+            const trophyEl = document.getElementById("trophy");
+            trophyEl.innerHTML = stats.percentage >= 80 ? "🏆" : stats.percentage >= 60 ? "🎉" : "🖥️";
 
             let insight = stats.percentage >= 90 ? "Outstanding! You have excellent understanding of OS fundamentals." :
-                          stats.percentage >= 75 ? "Great job! You're doing very well." :
-                          stats.percentage >= 60 ? "Good effort. Review a few concepts and you'll improve quickly." :
+                          stats.percentage >= 75 ? "Excellent work! Strong grasp of OS concepts." :
+                          stats.percentage >= 60 ? "Good job! Review a few concepts and you'll improve quickly." :
                           "Keep studying the basics of Operating Systems. Try again!";
             document.getElementById("insight-text").innerHTML = insight;
         }
@@ -285,40 +270,55 @@
             const modal = document.getElementById("review-modal");
             const list = document.getElementById("review-list");
             list.innerHTML = "";
-
             shuffledQuestions.forEach((q, i) => {
                 const answered = isAnswered[i];
                 const userIdx = userAnswers[i];
                 const isCorrect = answered && (userIdx === q.correctIndex);
-
                 const div = document.createElement("div");
-                div.className = "border border-zinc-700 rounded-3xl p-6 bg-zinc-950/50";
+                div.className = "border border-zinc-700 rounded-3xl p-6";
                 div.innerHTML = `
-                    <p class="font-medium mb-6 text-white">${i+1}. ${q.question}</p>
-                    <div class="space-y-3">
-                        ${q.options.map((opt, idx) => `
-                            <div class="flex justify-between items-center p-3 rounded-2xl ${idx === q.correctIndex ? 'bg-emerald-900/30 text-emerald-400' : 'bg-zinc-900'}">
-                                <span>${String.fromCharCode(65 + idx)}. ${opt}</span>
-                                ${idx === q.correctIndex ? '<span class="text-emerald-400 font-bold">✓ CORRECT</span>' : ''}
-                                ${answered && idx === userIdx && idx !== q.correctIndex ? '<span class="text-red-400 font-bold">✕ Your Answer</span>' : ''}
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-x-3">
+                                <span class="font-mono text-xs bg-zinc-800 px-3 py-1 rounded-2xl">${i+1}</span>
+                                <p class="font-medium text-white leading-tight">${q.question}</p>
                             </div>
-                        `).join('')}
+                            <div class="mt-6 grid grid-cols-1 gap-4">
+                                ${q.options.map((opt, idx) => {
+                                    let statusHTML = "";
+                                    if (answered && idx === userIdx) {
+                                        statusHTML = isCorrect ? `<span class="text-emerald-400 text-xs font-bold">YOUR ANSWER ✓</span>` : `<span class="text-red-400 text-xs font-bold">YOUR ANSWER ✕</span>`;
+                                    }
+                                    if (idx === q.correctIndex) statusHTML += ` <span class="text-emerald-400 text-xs font-bold">CORRECT</span>`;
+                                    return `
+                                        <div class="flex justify-between items-center ${idx === q.correctIndex ? 'text-emerald-400' : 'text-zinc-300'}">
+                                            <span>${String.fromCharCode(65 + idx)}. ${opt}</span>
+                                            ${statusHTML}
+                                        </div>
+                                    `;
+                                }).join("")}
+                            </div>
+                        </div>
                     </div>
                 `;
                 list.appendChild(div);
             });
-
             modal.classList.remove("hidden");
+            modal.classList.add("flex");
         }
 
         function hideReviewModal() {
-            document.getElementById("review-modal").classList.add("hidden");
+            const modal = document.getElementById("review-modal");
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
         }
 
         function shareResults() {
             const stats = calculateResults();
-            const text = `Quizzy Pro - Unit 1: Operating System Overview\nScore: ${stats.percentage}% (${stats.correct}/30)\nCorrect: ${stats.correct} | Incorrect: ${stats.incorrect} | Skipped: ${stats.skipped}`;
-            navigator.clipboard.writeText(text).then(() => alert("✅ Result copied to clipboard!"));
+            const text = `🖥️ I just scored ${stats.percentage}% on Quizzy Pro • Unit 1: Operating System Overview!\n\n✅ Correct: ${stats.correct}\n❌ Incorrect: ${stats.incorrect}\n⏭️ Skipped: ${stats.skipped}`;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Result copied to clipboard!");
+            });
         }
 
         function restartQuiz() {
@@ -332,8 +332,7 @@
         }
 
         function handleKeyboard(e) {
-            if (document.getElementById("results-screen").classList.contains("hidden") === false) return;
-            
+            if (!document.getElementById("results-screen").classList.contains("hidden")) return;
             if (e.key === "ArrowRight") nextQuestion();
             if (e.key === "ArrowLeft") prevQuestion();
             if (e.key >= "1" && e.key <= "4" && !isAnswered[currentIndex]) {
@@ -348,7 +347,7 @@
             currentIndex = 0;
             renderQuestion();
             document.addEventListener("keydown", handleKeyboard);
-            console.log("%c✅ Quizzy Pro • Unit 1: Operating System Overview loaded successfully!", "color:#a5b4fc; font-weight:bold");
+            console.log("%c✅ Quizzy Pro • Unit 1: Operating System Overview loaded successfully! (30 MCQs from official PDF)", "color:#a5b4fc; font-family:monospace; font-size:13px");
         }
 
         window.onload = startQuiz;
